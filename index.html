@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro de Clientes</title>
+    <link rel="stylesheet" type="text/css" href="estilos.css">
+    <script src="{% static 'main.js' %}"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Cadastro de Clientes</h1>
+        <form onsubmit="createClient(); return false;">
+            <label for="client-name">Nome do Cliente:</label>
+            <input id="client-name" type="text" placeholder="Digite o nome do cliente" required><br>
+            
+            <label for="client-city">Cidade:</label>
+            <select id="client-city" required>
+                <option value="" disabled selected>Selecione uma cidade</option>
+                <option value="Teresina">Teresina</option>
+                <option value="Parnaíba">Parnaíba</option>
+                <option value="Picos">Picos</option>
+                <!-- Adicione mais opções de cidades do Piauí aqui -->
+            </select><br>
+
+            <label for="debt-start-date">Data de Início da Dívida:</label>
+            <input id="debt-start-date" type="text" placeholder="Digite a data de início" required><br>
+
+            <label for="debt-end-date">Data de Fim da Dívida:</label>
+            <input id="debt-end-date" type="text" placeholder="Digite a data de fim" required><br>
+            
+            <button type="submit">Adicionar Cliente</button>
+        </form>
+
+        <h2>Buscar Clientes por Cidade</h2>
+        <select id="search-city" onchange="searchClients()">
+            <option value="" disabled selected>Selecione uma cidade</option>
+            <option value="Teresina">Teresina</option>
+            <option value="Parnaíba">Parnaíba</option>
+            <option value="Picos">Picos</option>
+            <!-- Adicione mais opções de cidades do Piauí aqui -->
+        </select>
+        
+        <h2>Informações do Cliente</h2>
+        <div id="client-info"></div>
+
+        <h2>Lista de Clientes</h2>
+        <ul id="client-list"></ul>
+    </div>
+
+    <script src="{% static 'main.js' %}"></script>
+    <script>
+
+        // Exemplo de dados fictícios do banco de dados
+        const clients = [];
+
+        function createClient() {
+            const newName = document.getElementById("client-name").value;
+            const newCity = document.getElementById("client-city").value;
+            const newDebtStart = document.getElementById("debt-start-date").value;
+            const newDebtEnd = document.getElementById("debt-end-date").value;
+
+            const newClientId = clients.length + 1; // Calcula o novo ID baseado no tamanho da lista atual
+
+            const newClient = {
+                id: newClientId,
+                name: newName,
+                city: newCity,
+                debtStart: newDebtStart,
+                debtEnd: newDebtEnd
+            };
+
+            clients.push(newClient); // Adiciona o novo cliente à lista
+            populateClientList(); // Atualiza a lista de clientes na página
+        }
+
+        
+        function populateClientList() {
+            const searchCity = document.getElementById("search-city").value;
+            const clientList = document.getElementById("client-list");
+            clientList.innerHTML = "";
+
+            clients.forEach(client => {
+                if (client.city === searchCity || searchCity === "") {
+                    const li = document.createElement("li");
+                    li.innerText = client.name + " - " + client.city;
+                    li.onclick = function() {
+                        showClientInfo(client);
+                    };
+                    clientList.appendChild(li);
+                }
+            });
+        }
+
+        function showClientInfo(client) {
+            const clientInfo = document.getElementById("client-info");
+            clientInfo.innerHTML = "";
+            
+            const infoDiv = document.createElement("div");
+            infoDiv.innerHTML = `
+                ID: ${client.id}<br>
+                Nome: ${client.name}<br>
+                Cidade: ${client.city}<br>
+                Data de Início da Dívida: ${client.debtStart}<br>
+                Data de Fim da Dívida: ${client.debtEnd}<br>
+            `;
+            clientInfo.appendChild(infoDiv);
+        }
+
+        // Chame a função populateClientList() quando a página carregar e quando a opção de busca mudar
+        document.addEventListener("DOMContentLoaded", populateClientList);
+        document.getElementById("search-city").addEventListener("change", populateClientList);
+
+      
+    </script>
+</body>
+</html>
