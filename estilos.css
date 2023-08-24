@@ -1,12 +1,9 @@
+/* Estilos para dispositivos maiores, como notebooks e desktops */
 body {
     font-family: Arial, sans-serif;
     background-color: #f2f2f2;
     margin: 0;
     padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
 }
 
 .container {
@@ -16,8 +13,8 @@ body {
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin-top: 20px;
-    box-sizing: border-box; /* Garante que o padding não aumente a largura total */
+    margin: 20px auto;
+    box-sizing: border-box;
 }
 
 h1 {
@@ -96,6 +93,22 @@ li:hover {
 /* Estilos para dispositivos móveis */
 @media screen and (max-width: 600px) {
     .container {
-        padding: 15px;
+        margin: 10px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    label,
+    input,
+    select {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    button {
+        padding: 8px;
+        font-size: 14px;
     }
 }
