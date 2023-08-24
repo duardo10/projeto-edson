@@ -8,12 +8,12 @@ body {
 
 .container {
     width: 100%;
-    max-width: 600px;
+    max-width: none;
     background-color: #fff;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin: 20px auto;
+    margin: 0;
     box-sizing: border-box;
 }
 
@@ -88,29 +88,4 @@ li:hover {
     background-color: #f9f9f9;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-/* Estilos para dispositivos móveis */
-@media screen and (max-width: 600px) {
-    .container {
-        width: 100%;
-        margin: 0;
-        padding: 10px;
-    }
-
-    h1 {
-        font-size: 24px;
-    }
-
-    label,
-    input,
-    select {
-        font-size: 14px;
-        padding: 8px;
-    }
-
-    button {
-        padding: 8px;
-        font-size: 14px;
-    }
 }
