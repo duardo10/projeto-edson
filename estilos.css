@@ -1,4 +1,4 @@
-/* Estilos para dispositivos maiores, como notebooks e desktops */
+/* Estilos gerais */
 body {
     font-family: Arial, sans-serif;
     background-color: #f2f2f2;
@@ -93,7 +93,9 @@ li:hover {
 /* Estilos para dispositivos móveis */
 @media screen and (max-width: 600px) {
     .container {
-        margin: 10px;
+        width: 100%;
+        margin: 0;
+        padding: 10px;
     }
 
     h1 {
