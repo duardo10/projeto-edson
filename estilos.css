@@ -6,17 +6,18 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
 }
 
 .container {
-    width: 80%;
+    width: 100%;
     max-width: 600px;
     background-color: #fff;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     margin-top: 20px;
+    box-sizing: border-box; /* Garante que o padding não aumente a largura total */
 }
 
 h1 {
@@ -27,22 +28,21 @@ h1 {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: bold;
-    color: #333;
-}
-
-input, select {
-    width: 100%;
+label,
+input,
+select {
+    font-size: 16px;
     padding: 10px;
+    margin-bottom: 15px;
+    width: 100%;
     border: 1px solid #ccc;
     border-radius: 4px;
-    outline: none;
     box-sizing: border-box;
-    font-size: 16px;
-    margin-bottom: 15px;
+}
+
+input[type="text"],
+select {
+    outline: none;
 }
 
 button {
@@ -65,6 +65,8 @@ button:hover {
 ul {
     margin-top: 20px;
     padding: 0;
+    display: flex;
+    flex-direction: column;
 }
 
 li {
@@ -89,4 +91,11 @@ li:hover {
     background-color: #f9f9f9;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para dispositivos móveis */
+@media screen and (max-width: 600px) {
+    .container {
+        padding: 15px;
+    }
 }

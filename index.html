@@ -12,31 +12,49 @@
         <form onsubmit="createClient(); return false;">
             <label for="client-name">Nome do Cliente:</label>
             <input id="client-name" type="text" placeholder="Digite o nome do cliente" required><br>
-            
+                    
+            <label for="client-street">Rua:</label>
+            <input id="client-street" type="text" placeholder="Digite a rua" required><br>
+        
+            <label for="client-number">Número:</label>
+            <input id="client-number" type="text" placeholder="Digite o número" required><br>
+        
+            <label for="client-state">Estado:</label>
+            <select id="client-state" onchange="fillCitiesByState()" required>
+                <option value="" disabled selected>Selecione um estado</option>
+                <option value="PI">Piauí</option>
+                <option value="MA">Maranhão</option>
+                <option value="SP">São Paulo</option>
+                <!-- Adicione mais opções de estados aqui -->
+            </select><br>
+
             <label for="client-city">Cidade:</label>
             <select id="client-city" required>
                 <option value="" disabled selected>Selecione uma cidade</option>
-                <option value="Teresina">Teresina</option>
-                <option value="Parnaíba">Parnaíba</option>
-                <option value="Picos">Picos</option>
-                <!-- Adicione mais opções de cidades do Piauí aqui -->
             </select><br>
-
+     
+            <label for="client-zip">CEP:</label>
+            <input id="client-zip" type="text" placeholder="Digite o CEP" required><br>
+        
             <label for="debt-start-date">Data de Início da Dívida:</label>
             <input id="debt-start-date" type="text" placeholder="Digite a data de início" required><br>
-
+        
             <label for="debt-end-date">Data de Fim da Dívida:</label>
             <input id="debt-end-date" type="text" placeholder="Digite a data de fim" required><br>
-            
+                    
             <button type="submit">Adicionar Cliente</button>
         </form>
-
+        
         <h2>Buscar Clientes por Cidade</h2>
         <select id="search-city" onchange="searchClients()">
             <option value="" disabled selected>Selecione uma cidade</option>
             <option value="Teresina">Teresina</option>
-            <option value="Parnaíba">Parnaíba</option>
+            <option value="Bocaina">Bocaina</option>
             <option value="Picos">Picos</option>
+            <option value="Santo Antônio de Lisboa">Santo Antônio de Lisboa</option>
+            <option value="Fancisco Santos">Francisco Santos</option>
+            <option value="Monsenhor Hipólito">Monsenhor Hipólito</option>
+            
             <!-- Adicione mais opções de cidades do Piauí aqui -->
         </select>
         
@@ -49,36 +67,67 @@
 
     <script src="{% static 'main.js' %}"></script>
     <script>
-
         // Exemplo de dados fictícios do banco de dados
         const clients = [];
 
+        // Mapeamento de cidades por estado
+        const citiesByState = {
+            PI: ["Teresina", "Bocaina","Picos","Santo Antônio de Lisboa","Fancisco Santos","Monsenhor Hipólito"],
+            SP: ["São Caetano", "São Paulo"],
+            // Adicione mais estados e suas cidades aqui
+        };
+
+        // Função para preencher as opções de cidades com base no estado selecionado
+        function fillCitiesByState() {
+            const stateSelect = document.getElementById("client-state");
+            const citySelect = document.getElementById("client-city");
+            const selectedState = stateSelect.value;
+
+            // Limpar as opções de cidades
+            citySelect.innerHTML = "";
+
+            // Preencher as opções de cidades com base no estado selecionado
+            citiesByState[selectedState].forEach(city => {
+                const option = document.createElement("option");
+                option.value = city;
+                option.textContent = city;
+                citySelect.appendChild(option);
+            });
+        }
+    
         function createClient() {
             const newName = document.getElementById("client-name").value;
+            const newStreet = document.getElementById("client-street").value;
+            const newNumber = document.getElementById("client-number").value;
+            const newState = document.getElementById("client-state").value;
             const newCity = document.getElementById("client-city").value;
+            const newZip = document.getElementById("client-zip").value;
             const newDebtStart = document.getElementById("debt-start-date").value;
             const newDebtEnd = document.getElementById("debt-end-date").value;
-
-            const newClientId = clients.length + 1; // Calcula o novo ID baseado no tamanho da lista atual
-
+    
+            const newClientId = clients.length + 1;
+    
             const newClient = {
                 id: newClientId,
                 name: newName,
+                street: newStreet,
+                number: newNumber,
                 city: newCity,
+                state: newState,
+                zip: newZip,
                 debtStart: newDebtStart,
                 debtEnd: newDebtEnd
             };
-
-            clients.push(newClient); // Adiciona o novo cliente à lista
-            populateClientList(); // Atualiza a lista de clientes na página
+    
+            clients.push(newClient);
+            populateClientList();
         }
-
-        
+    
         function populateClientList() {
             const searchCity = document.getElementById("search-city").value;
             const clientList = document.getElementById("client-list");
             clientList.innerHTML = "";
-
+    
             clients.forEach(client => {
                 if (client.city === searchCity || searchCity === "") {
                     const li = document.createElement("li");
@@ -90,27 +139,27 @@
                 }
             });
         }
-
+    
         function showClientInfo(client) {
             const clientInfo = document.getElementById("client-info");
             clientInfo.innerHTML = "";
-            
+    
             const infoDiv = document.createElement("div");
             infoDiv.innerHTML = `
                 ID: ${client.id}<br>
                 Nome: ${client.name}<br>
+                Endereço: ${client.street}, ${client.number}<br>
                 Cidade: ${client.city}<br>
+                Estado: ${client.state}<br>
+                CEP: ${client.zip}<br>
                 Data de Início da Dívida: ${client.debtStart}<br>
                 Data de Fim da Dívida: ${client.debtEnd}<br>
             `;
             clientInfo.appendChild(infoDiv);
         }
-
-        // Chame a função populateClientList() quando a página carregar e quando a opção de busca mudar
+    
         document.addEventListener("DOMContentLoaded", populateClientList);
         document.getElementById("search-city").addEventListener("change", populateClientList);
-
-      
     </script>
 </body>
 </html>
