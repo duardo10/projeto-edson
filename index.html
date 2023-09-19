@@ -67,8 +67,6 @@
 
     <script src="{% static 'main.js' %}"></script>
     <script>
-        // Exemplo de dados fictícios do banco de dados
-        const clients = [];
 
         // Mapeamento de cidades por estado
         const citiesByState = {
@@ -104,9 +102,9 @@
             const newZip = document.getElementById("client-zip").value;
             const newDebtStart = document.getElementById("debt-start-date").value;
             const newDebtEnd = document.getElementById("debt-end-date").value;
-    
+
             const newClientId = clients.length + 1;
-    
+
             const newClient = {
                 id: newClientId,
                 name: newName,
@@ -118,9 +116,22 @@
                 debtStart: newDebtStart,
                 debtEnd: newDebtEnd
             };
-    
-            clients.push(newClient);
-            populateClientList();
+
+            // Aqui você faria a requisição para adicionar o cliente no servidor
+            fetch('/api/clientes', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newClient)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data.message);
+                // Depois de adicionar o cliente, atualize a lista
+                populateClientList();
+            })
+            .catch(error => console.error('Erro:', error));
         }
     
         function populateClientList() {
